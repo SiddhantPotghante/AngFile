@@ -1,0 +1,94 @@
+import { Component } from '@angular/core';
+
+var alasql = require('alasql');
+import { Http,HttpModule } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+const fetch = require("node-fetch");
+import {ChildComponent} from './childcmp'
+//import { JsonpModule } from '@angular/http/src/http_module';
+const fs = require('fs');
+
+//import * as data from  '../databasejson/DeEverBankConRuleMaster.json'
+var jsonData = require('../databasejson/DeEverBankConRuleMaster.json');
+var jsonData1 = require('../databasejson/DeEverBankConRuleMaster.1.json');
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class Empoyee {
+  title = 'app works!';
+user1=[{id:1,name:'swapnil'}]
+user2=[{id:1,name:'swapn'}]
+
+  // alasql.from.csv = function(filename, opts){
+  //   var fs = require('fs');
+  // //	console.log(__dirname+'/'+filename);
+  //   var txt = fs.readFileSync(filename).toString();
+  //   var aaa = txt.split(/\r?\n/);
+  //   var h = aaa.shift().split(',');
+  // //	console.log(h);
+  //   return {rows:aaa, headers:h};
+  // };
+  insertquerystring:string="";
+  updatequerystring:string="";
+  data:any
+  jsonCmp:any=jsonData;
+  constructor(private http:Http)
+  {
+    
+  }
+
+//console.log(this.getdata())
+  
+
+  getdata(){
+    alert('called')
+   
+    const url ="https://jsonplaceholder.typicode.com/posts";
+
+fetch(url)
+  .then(response => {
+    response.json().then(json => {
+     //console.log(json[0].id)
+     this.data=json;
+    });
+  })
+  .catch(error => {
+    console.log(error);
+  });
+  }
+
+  //Generate Insert Query
+  geninsertqry(insquery)
+  {
+  //console.log(insquery)
+  this.insertquerystring="insert into  master (A,B,C) values("+insquery.id+","+insquery.title+","+insquery.body+")";
+  alert(this.insertquerystring)
+  }
+
+  //Generate Update Query
+  genupdateqry(updquery)
+  {
+
+  }
+
+  //child param data
+  countChange($event) {
+    console.log($event)
+  }
+
+  // getdata()
+  // {
+ 
+   
+  //   var data=this.http.get('https://jsonplaceholder.typicode.com/posts.json').map((res:Response)=>res.json());
+  //   console.log(data)
+   
+  // }
+ 
+  
+  
+}
